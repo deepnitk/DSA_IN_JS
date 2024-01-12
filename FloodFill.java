@@ -51,3 +51,42 @@ class Solution {
         } 
     }
 }
+
+//DFS solution
+
+class Pair {
+    int first;
+    int second;
+    public Pair(int _first, int _second) {
+        this.first = _first;
+        this.second = _second;
+    }
+}
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int n = image.length;
+        int m = image[0].length;
+        dfs(sr, sc, image, image[sr][sc], color, n, m);
+        return image;
+    }
+
+    private void dfs(int ro, int co, int[][] image, int preColor, int newColor, int n, int m) {
+        if(ro < 0 || ro >= n || co < 0 || co >= m || image[ro][co] != preColor
+            || image[ro][co] == newColor) {
+                return;
+            }
+        image[ro][co] = newColor;
+        if (ro - 1 >= 0) {
+            dfs(ro - 1, co, image, preColor, newColor, n, m);
+        }
+        if (ro + 1 <= n) {
+            dfs(ro + 1, co, image, preColor, newColor, n, m);
+        }
+        if (co - 1 >= 0) {
+            dfs(ro, co - 1, image, preColor, newColor, n, m);
+        }
+        if (co + 1 <= m) {
+            dfs(ro, co + 1, image, preColor, newColor, n, m);
+        }
+    }
+}
