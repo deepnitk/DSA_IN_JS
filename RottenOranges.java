@@ -1,4 +1,3 @@
-//BFS solution
 class Tuple {
     int row;
     int col;
@@ -31,6 +30,9 @@ class Solution {
         }
         int cnt = 0;
         int tm = 0;
+        int dRow[] = {-1, 0, +1, 0};
+        int dCol[] = {0, 1, 0, -1};
+
         while(!q.isEmpty()) {
             Tuple tp = q.peek();
             int row = tp.row;
@@ -38,26 +40,16 @@ class Solution {
             int level = tp.level;
             q.remove();
             tm = Math.max(tm, level);
-
-            if (row - 1 >= 0 && vis[row - 1][col] == 0 && grid[row - 1][col] == 1) {
-                vis[row - 1][col] = 2;
-                q.add(new Tuple(row - 1, col, level + 1));
-                cnt++;
-            }
-            if (row + 1 < n && vis[row + 1][col] == 0 && grid[row + 1][col] != 0) {
-                vis[row + 1][col] = 2;
-                q.add(new Tuple(row + 1, col, level + 1));
-                cnt++;
-            }
-            if (col - 1 >= 0 && vis[row][col - 1] == 0 && grid[row][col - 1] != 0) {
-                vis[row][col - 1] = 2;
-                q.add(new Tuple(row, col - 1, level + 1));
-                cnt++;
-            }
-            if (col + 1 < m && vis[row][col + 1] == 0 && grid[row][col + 1] != 0) {
-                vis[row][col + 1] = 2;
-                q.add(new Tuple(row, col + 1, level + 1));
-                cnt++;
+            for (int i = 0; i < 4; i++) {
+                int nRow = row + dRow[i];
+                int nCol = col + dCol[i];
+                if (nRow >= 0 && nRow < n && nCol >= 0 && nCol < m 
+                    && vis[nRow][nCol] == 0 
+                    && grid[nRow][nCol] == 1){
+                        vis[nRow][nCol] = 2;
+                        q.add(new Tuple(nRow, nCol, level + 1));
+                        cnt++;
+                    }
             }
         }
         if (cnt != cntFresh) return -1;
