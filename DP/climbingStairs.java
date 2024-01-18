@@ -53,3 +53,21 @@ class Solution {
         return dp[ind];
     }
 }
+
+//Optimization
+class Solution {
+    public int climbStairs(int n) {
+        return f(n);
+    }
+
+    private int f (int ind) {
+        int prev2 = 1;
+        int prev = 1;
+        for(int i = 2; i <= ind; i++) {
+            int curri = prev + prev2;
+            prev2 = prev;
+            prev = curri;
+        }
+        return prev;
+    }
+}
