@@ -81,14 +81,18 @@ class Solution {
         return dp[m - 1][n - 1];
         
     }
+}
 
-    static int countWaysUtil(int m, int n, int[][] dp) {
-        // Loop through each cell in the grid
+//Space optimization
+class Solution {
+    public int uniquePaths(int m, int n) {
+         int prev[] = new int[n];
         for (int i = 0; i < m; i++) {
+            int temp[] = new int[n];
             for (int j = 0; j < n; j++) {
                 // Base condition: If we are at the top-left cell (0, 0), there's one way to reach it.
                 if (i == 0 && j == 0) {
-                    dp[i][j] = 1;
+                    temp[j] = 1;
                     continue;
                 }
 
@@ -97,16 +101,15 @@ class Solution {
 
                 // Calculate the number of ways by moving up (if possible) and left (if possible)
                 if (i > 0)
-                    up = dp[i - 1][j];
+                    up = prev[j];
                 if (j > 0)
-                    left = dp[i][j - 1];
+                    left = temp[j - 1];
 
                 // Store the total number of ways to reach the current cell in the DP array
-                dp[i][j] = up + left;
+                temp[j] = up + left;
             }
+            prev = temp;
         }
-
-        // Return the number of ways to reach the bottom-right cell (m-1, n-1)
-        return dp[m - 1][n - 1];
+        return prev[n - 1];
     }
 }
