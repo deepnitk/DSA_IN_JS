@@ -76,3 +76,33 @@ class Solution {
         return dp[0][0];
     }
 }
+
+//Space optimization
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        int m = triangle.get(n - 1).size();
+        int[] prev = new int[m];
+        Arrays.fill(prev, -1);
+        return f(triangle, prev);
+    }
+
+    private int f(List<List<Integer>> triangle, int[] prev) {
+        int n = triangle.size();
+        int m = triangle.get(n - 1).size();
+        for(int j = 0; j < m; j++) {
+            prev[j] = triangle.get(n - 1).get(j);
+        }
+        for (int i = n - 2; i >= 0; i--) {
+            int[] temp = new int[m];
+            for (int j = i; j >= 0; j--) {
+                int top = triangle.get(i).get(j) + prev[j];
+                int right = triangle.get(i).get(j) + prev[j + 1];
+                temp[j] = Math.min(top, right);
+            }
+            prev = temp;
+        }
+        return prev[0];
+    }
+}
