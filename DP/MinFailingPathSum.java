@@ -105,3 +105,48 @@ class Solution {
     }   
 
 }
+
+//Space optimization
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int[] prev = new int[m];
+        Arrays.fill(prev, -1);
+
+        for (int j = 0; j < m; j++) {
+            prev[j] = matrix[n - 1][j];
+        }
+        for (int i = n - 2; i >= 0; i--) {
+            int[] temp = new int[m];
+            for (int j = m - 1; j >= 0; j--) {
+
+                int left = matrix[i][j];
+                if (j - 1 >= 0) {
+                    left += prev[j - 1];
+                } else {
+                    left += (int) Math.pow(10, 9);
+                }
+
+                int top = matrix[i][j] + prev[j];
+
+                int right = matrix[i][j];
+                if (j + 1 < m) {
+                    right += prev[j + 1];
+                } else {
+                    right +=  (int) Math.pow(10, 9);
+                }
+
+                temp[j] = Math.min(left, Math.min(top, right));
+            }
+            prev = temp;
+        }
+
+        int mini = Integer.MAX_VALUE;
+        for (int j = 0; j < m; j++) {
+            mini = Math.min(mini, prev[j]);
+        }
+        return mini;       
+    }   
+
+}
