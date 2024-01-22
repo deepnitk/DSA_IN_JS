@@ -74,7 +74,6 @@ class Solution {
 }
 
 //Space optimization
-
 class Solution {
     public int rob(int[] nums) {
         int n = nums.length;
