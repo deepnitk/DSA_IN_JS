@@ -109,3 +109,48 @@ class Solution {
         return dp[n - 1][k];
     }
 }
+
+//Space optimization
+
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int n = nums.length;
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += nums[i];
+        }
+        if (sum % 2 == 1) {
+            return false;
+        }
+        int k = sum / 2;
+        boolean[] prev = new boolean[k + 1];
+
+        Arrays.fill(prev, false);
+
+        return subsetSum(n, nums, k, prev);
+    }
+
+    private boolean subsetSum(int n, int[] nums, int k, boolean[] prev) {
+        
+        prev[0] = true;
+        if (nums[0] <= k) {
+            prev[nums[0]] = true;
+        }
+
+        for (int ind = 1; ind < n; ind++) {
+            boolean[] temp = new boolean[k + 1];
+            for (int target = 1; target <= k; target++) {
+                boolean pick = false;
+                if (target > nums[ind]) {
+                    pick = prev[target - nums[ind]];
+                }
+                boolean notPick = prev[target];
+                temp[target] = notPick || pick;
+            }
+            prev = temp;
+        }
+
+        
+        return prev[k];
+    }
+}
