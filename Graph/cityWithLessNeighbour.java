@@ -6,8 +6,8 @@ class Solution {
                 d[i][j] = Integer.MAX_VALUE;
             }
         }
-
-        for(int i = 0; i < n; i++) {
+        inr m = edges.length;
+        for(int i = 0; i < m; i++) {
             int u = edges[i][0];
             int v = edges[i][1];
             int wt = edges[i][2];
