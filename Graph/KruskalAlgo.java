@@ -32,18 +32,22 @@ public class Main{
 
 
 // User function Template for Java
-class Edge implements Comparable<Edge>{
-    int src, dest, weight;
-    Edge(int _src, int _dest, int_wt) {
+class Edge implements Comparable<Edge> {
+    int src;
+    int dest;
+    int weight;
+    Edge(int _src, int _dest, int _wt) {
         this.src = _src;
         this.dest = _dest;
         this.weight = _wt;
     }
     
-    public int compareToEdge(Edge compareEdge) {
+     public int compareTo(Edge compareEdge)
+    {
+ 
         return this.weight - compareEdge.weight;
     }
-}
+};
 
 class DisjointSet {
     List<Integer> size = new ArrayList<>();
@@ -73,14 +77,15 @@ class DisjointSet {
             return;
         }
         if (size.get(ulp_u) < size.get(ulp_v)) {
-            parent.set(ulp_u. ulp_v);
-            size.get(ulp_v) += size.get(ulp_u);
+            parent.set(ulp_u, ulp_v);
+            size.set(ulp_v, size.get(ulp_v) + size.get(ulp_u));
         } else {
-            parent.set(ulp_v. ulp_u);
-            size.get(ulp_u) += size.get(ulp_v);
+            parent.set(ulp_v, ulp_u);
+            size.set(ulp_u, size.get(ulp_u) + size.get(ulp_v));
         }
     }
-}
+};
+
 class Pair {
     int node;
     int distance;
@@ -88,7 +93,8 @@ class Pair {
         this.node = _node;
         this.distance = _distance;
     }
-}
+};
+
 class Solution{
 	static int spanningTree(int V, int E, int edges[][]){
 	    ArrayList<ArrayList<ArrayList<Integer>>> adj = new ArrayList<>();
@@ -121,7 +127,7 @@ class Solution{
 	    for (int i = 0; i < V; i++) {
 	        for( int j = 0; j < adj.get(i).size(); j++) {
 	            int adjNode =adj.get(i).get(j).get(0);
-	            int wt = edges.get(i).get(j).get(1);
+	            int wt = adj.get(i).get(j).get(1);
 	            int node = i;
 	            Edge temp = new Edge(i, adjNode, wt);
 	            edges.add(temp);
@@ -136,7 +142,7 @@ class Solution{
 	    for(int i = 0; i  < edges.size(); i++) {
 	        int wt = edges.get(i).weight;
 	        int u = edges.get(i).src;
-	        int v = edges.get(i).dist;
+	        int v = edges.get(i).dest;
 	        
 	        if (ds.findUpar(u) != ds.findUpar(v)) {
 	            mstWt += wt;
