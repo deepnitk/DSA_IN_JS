@@ -29,3 +29,44 @@ class Solution {
         return dp[idx][buy] = profit;
     }
 }
+
+//Tabulation
+class Solution {
+    public int maxProfit(int[] prices) {
+        int[][] dp = new int[prices.length + 1][2];
+        for(int[] row: dp)
+            Arrays.fill(row, -1);
+        return maxProfitUtil(prices, dp);
+    }
+
+    private int maxProfitUtil(int[] prices, int[][] dp) {
+        int n = prices.length;
+        // if (idx == n) {
+        //     return  0;
+        // }
+        for (int buy = 0; buy <=1; buy++) {
+            dp[n][buy] = 0;
+        }
+        // if (dp[idx][buy] != -1) {
+        //     return dp[idx][buy];
+        // }
+        int profit = 0;
+
+        for(int idx = n - 1; idx >= 0; idx--) {
+            for (int buy = 1; buy >= 0; buy--) {
+                // I can buy today
+                if (buy == 1) {
+
+                    dp[idx][buy] = Math.max((-prices[idx] + dp[idx + 1][0]), //will buy
+                                        0 + dp[idx + 1][1]); //not buy
+                } else {  // I need to sell today
+                     dp[idx][buy] = Math.max((prices[idx] +dp[idx + 1][1]), //will sell
+                                        0 + dp[idx + 1][0]); //not sell
+                }
+            }
+        }
+        
+
+        return dp[0][1];
+    }
+}
