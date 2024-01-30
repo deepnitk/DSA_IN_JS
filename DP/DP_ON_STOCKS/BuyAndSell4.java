@@ -35,3 +35,40 @@ class Solution {
         return dp[idx][buy][cap] = profit;
     }
 }
+
+//Tabulation
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+        int[][][] dp = new int[prices.length + 1][2][k + 1];
+        for (int i = 0; i < prices.length; i++) {
+            for (int j = 0; j < 2; j++) {
+                Arrays.fill(dp[i][j], 0);
+            }
+        }
+        return maxProfitUtil(k, prices, dp);
+    }
+
+    private int maxProfitUtil(int k, int[] prices, int[][][] dp) {
+        int n = prices.length;
+        for(int idx = n - 1; idx >= 0; idx--) {
+            for (int buy = 1; buy >=0; buy--) {
+                for(int cap = k;cap > 0; cap --) {
+                    int profit = 0;
+                    // I can buy today
+                    if (buy == 1) {
+
+                        profit = Math.max((-prices[idx] + dp[idx + 1][0][cap]), //will buy
+                                            0 + dp[idx + 1][1][cap]); //not buy
+                    } else {  // I need to sell today
+                        profit = Math.max((prices[idx] + dp[idx + 1][1][cap - 1]), //will sell
+                                            0 + dp[idx + 1][0][cap]); //not sell
+                    }
+                    dp[idx][buy][cap] = profit;
+                }
+            }
+        }
+        
+
+        return dp[0][1][k];
+    }
+}
