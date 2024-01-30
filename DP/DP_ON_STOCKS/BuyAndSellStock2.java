@@ -70,3 +70,41 @@ class Solution {
         return dp[0][1];
     }
 }
+
+//Space optimization
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int[] prev = new int[2];
+        Arrays.fill(prev, -1);
+        return maxProfitUtil(prices, prev);
+    }
+
+    private int maxProfitUtil(int[] prices, int[] prev) {
+        int n = prices.length;
+        for (int buy = 0; buy <=1; buy++) {
+            prev[buy] = 0;
+        }
+
+        int profit = 0;
+
+        for(int idx = n - 1; idx >= 0; idx--) {
+            int[] curr = new int[2];
+            for (int buy = 1; buy >= 0; buy--) {
+                // I can buy today
+                if (buy == 1) {
+
+                    curr[buy] = Math.max((-prices[idx] + prev[0]), //will buy
+                                        0 + prev[1]); //not buy
+                } else {  // I need to sell today
+                    curr[buy] = Math.max((prices[idx] +prev[1]), //will sell
+                                        0 + prev[0]); //not sell
+                }
+            }
+            prev = curr;
+        }
+        
+
+        return prev[1];
+    }
+}
