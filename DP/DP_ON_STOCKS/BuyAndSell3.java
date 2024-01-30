@@ -42,7 +42,7 @@ class Solution {
         int[][][] dp = new int[prices.length + 1][2][3];
         for (int i = 0; i < prices.length; i++) {
             for (int j = 0; j < 2; j++) {
-                Arrays.fill(dp[i][j], -1);
+                Arrays.fill(dp[i][j], 0);
             }
         }
         return maxProfitUtil(prices, dp);
@@ -56,14 +56,13 @@ class Solution {
                 for (int cap = 2; cap > 0; cap --) {
                     int profit = 0;
                     // I can buy today
-                    if (buy == 0) {
+                    if (buy == 1) {
 
-                        profit = Math.max((-prices[idx] + dp[idx + 1][1][cap]), //will buy
-                                            0 + dp[idx + 1][0][cap]); //not buy
-                    } 
-                    if (buy == 1) {  // I need to sell today
-                        profit = Math.max((prices[idx] + dp[idx + 1][0][cap - 1]), //will sell
-                                            0 + dp[idx + 1][1][cap]); //not sell
+                        profit = Math.max((-prices[idx] + dp[idx + 1][0][cap]), //will buy
+                                            0 + dp[idx + 1][1][cap]); //not buy
+                    } else {  // I need to sell today
+                        profit = Math.max((prices[idx] + dp[idx + 1][1][cap - 1]), //will sell
+                                            0 + dp[idx + 1][0][cap]); //not sell
                     }
                     dp[idx][buy][cap] = profit;
                 }
@@ -71,6 +70,6 @@ class Solution {
         }
         
 
-        return dp[0][0][2];
+        return dp[0][1][2];
     }
 }
