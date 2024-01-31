@@ -99,3 +99,39 @@ class Solution
         
     }
 }
+
+//Space Solution
+
+class Solution 
+{ 
+    //Function to return max value that can be put in knapsack of capacity W.
+    static int knapSack(int W, int wt[], int val[], int n) 
+    { 
+        
+        return knapSackUtils(wt, val, W, n);
+    }
+    
+    static int knapSackUtils(int wt[], int val[], int K, int n) {
+        int[] prev = new int[K + 1];
+        // Base Condition
+        for (int i = wt[0]; i <= K; i++) {
+            prev[i] = val[0];
+        }
+        
+        for (int idx = 1; idx < n; idx++) {
+            int[] curr = new int[K + 1];
+            for (int target = 0; target <= K; target++) {
+                int notPick = prev[target];
+                int pick = 0;
+                if(wt[idx] <= target) {
+                    pick = val[idx] + prev[target - wt[idx]];
+                }
+                
+                curr[target] = Math.max(pick, notPick);
+            }
+            prev = curr;
+        }
+        return prev[K];
+        
+    }
+}
