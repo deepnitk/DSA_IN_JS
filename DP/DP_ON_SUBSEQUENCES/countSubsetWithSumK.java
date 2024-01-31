@@ -69,3 +69,48 @@ class Solution{
         return dp[ind][target] = notTaken + taken;
 	}
 }
+
+//Tabulation
+
+class Solution{
+
+	public int perfectSum(int arr[],int n, int k) 
+	{
+	    //int n = num.length;
+	    int len = arr.length;
+        int dp[][] = new int[len][k + 1];
+
+        for (int row[] : dp)
+            Arrays.fill(row, 0);
+
+        return findWaysUtil(k, arr, dp);
+	} 
+	
+	private int findWaysUtil(int k, int[] arr, int[][] dp) {
+        int n = arr.length;
+            
+        for (int ind = 0; ind < n; ind++) {
+            dp[ind][0] = 1;
+        }
+        
+        dp[0][arr[0]] = 1;
+        
+        for (int ind = 1; ind < n; ind++) {
+            for (int target = 0; target <= k; target++) {
+                // Calculate the number of ways when the current element is not taken
+                int notTaken = dp[ind - 1][target];
+        
+                // Calculate the number of ways when the current element is taken
+                int taken = 0;
+                if (arr[ind] <= target)
+                    taken = dp[ind - 1][target - arr[ind]];
+                dp[ind][target] = taken + notTaken;
+            }
+                
+        }
+        
+
+        // Store and return the result for the current state
+        return dp[n - 1][k];
+	}
+}
