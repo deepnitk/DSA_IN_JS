@@ -64,3 +64,38 @@ class Solution
         return dp[idx][K] = Math.max(pick, notPick);
     }
 }
+
+//Tabulation approach
+
+class Solution 
+{ 
+    //Function to return max value that can be put in knapsack of capacity W.
+    static int knapSack(int W, int wt[], int val[], int n) 
+    { 
+        
+        return knapSackUtils(wt, val, W, n);
+    }
+    
+    static int knapSackUtils(int wt[], int val[], int K, int n) {
+        int[][] dp = new int[n][K + 1];
+        
+        // Base Condition
+        for (int i = wt[0]; i <= K; i++) {
+            dp[0][i] = val[0];
+        }
+        
+        for (int idx = 1; idx < n; idx++) {
+            for (int target = 0; target <= K; target++) {
+                int notPick = dp[idx - 1][target];
+                int pick = 0;
+                if(wt[idx] <= target) {
+                    pick = val[idx] + dp[idx - 1][target - wt[idx]];
+                }
+                
+                dp[idx][target] = Math.max(pick, notPick);
+            }
+        }
+        return dp[n - 1][K];
+        
+    }
+}
