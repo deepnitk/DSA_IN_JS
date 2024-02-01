@@ -103,3 +103,45 @@ class Solution {
         
     }
 }
+
+//space optimisation
+
+class Solution {
+    public int change(int T, int[] coins) {
+        
+
+        return coinChangeUtil(T, coins);
+    }
+
+    private int coinChangeUtil(int T, int[] coins) {
+        int n = coins.length;
+        int[] prev = new int[T + 1];
+        for (int idx = 0; idx < n; idx++) {
+            prev[0] = 1;
+        }
+        for (int target = 0; target <= T; target++) {
+            if (target % coins[0] == 0) {
+                prev[target] = 1;
+            } else {
+                prev[target] = 0;
+            }
+        }
+
+        for (int idx = 1; idx < n; idx++) {
+            int[] curr = new int[T + 1];
+            for (int target = 1; target <= T; target++) {
+                int notPick = prev[target];
+                int pick = 0;
+                if (coins[idx] <= target) {
+                    pick = curr[target - coins[idx]];
+                }
+
+                curr[target] = pick + notPick;
+            }
+            prev = curr;
+        }
+
+        return prev[T];
+        
+    }
+}
