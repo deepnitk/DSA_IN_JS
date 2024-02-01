@@ -95,4 +95,40 @@ class Solution {
     }
 }
 
+//Space optimization
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int ans = coinChangeUtil(amount, coins);
+        return (ans == (int)(1e9)) ?  -1 : ans;
+
+    }
+
+    private int coinChangeUtil(int T, int[] coins) {
+        int n = coins.length;
+        int[] prev = new int[T + 1];
+        for(int target = 0; target <= T; target++) {
+            if (target % coins[0] == 0) {
+                prev[target] = target / coins[0];
+            } else {
+                prev[target] = (int)(1e9);
+            }
+        }
+        for(int idx = 1; idx < n; idx++) {
+            int[] curr = new int[T + 1];
+            for(int target = 0; target <= T; target++) {
+                int notPick = 0 + prev[target];
+                int pick = (int)(1e9);
+                if (coins[idx] <= target) {
+                    pick = 1 + curr[target - coins[idx]];
+                }
+
+                curr[target] = Math.min(pick, notPick);
+            }
+            prev = curr;
+        }
+        
+        return prev[T];
+    }
+}
+
 
