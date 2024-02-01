@@ -59,3 +59,40 @@ class Solution {
         return dp[idx][T] = Math.min(pick, notPick);
     }
 }
+
+//Tabulisation
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int ans = coinChangeUtil(amount, coins);
+        return (ans == (int)(1e9)) ?  -1 : ans;
+
+    }
+
+    private int coinChangeUtil(int T, int[] coins) {
+        int n = coins.length;
+        int[][] dp = new int[n][T + 1];
+        for(int target = 0; target <= T; target++) {
+            if (target % coins[0] == 0) {
+                dp[0][target] = target / coins[0];
+            } else {
+                dp[0][target] = (int)(1e9);
+            }
+        }
+        for(int idx = 1; idx < n; idx++) {
+            for(int target = 0; target <= T; target++) {
+                int notPick = 0 + dp[idx - 1][target];
+                int pick = (int)(1e9);
+                if (coins[idx] <= target) {
+                    pick = 1 + dp[idx][target - coins[idx]];
+                }
+
+                dp[idx][target] = Math.min(pick, notPick);
+            }
+        }
+        
+        return dp[n - 1][T];
+    }
+}
+
+
