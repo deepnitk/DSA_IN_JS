@@ -63,3 +63,43 @@ class Solution {
         return dp[idx][T] = pick + notPick;
     }
 }
+
+//Tabulation solution
+
+class Solution {
+    public int change(int T, int[] coins) {
+        
+
+        return coinChangeUtil(T, coins);
+    }
+
+    private int coinChangeUtil(int T, int[] coins) {
+        int n = coins.length;
+        int[][] dp = new int[n][T + 1];
+        for (int idx = 0; idx < n; idx++) {
+            dp[idx][0] = 1;
+        }
+        for (int target = 0; target <= T; target++) {
+            if (target % coins[0] == 0) {
+                dp[0][target] = 1;
+            } else {
+                dp[0][target] = 0;
+            }
+        }
+
+        for (int idx = 1; idx < n; idx++) {
+            for (int target = 1; target <= T; target++) {
+                int notPick = dp[idx - 1][target];
+            int pick = 0;
+            if (coins[idx] <= target) {
+                pick = dp[idx][target - coins[idx]];
+            }
+
+            dp[idx][target] = pick + notPick;
+            }
+        }
+
+        return dp[n - 1][T];
+        
+    }
+}
