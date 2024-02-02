@@ -80,3 +80,33 @@ class Solution {
         return dp[0][-1 + 1];
     }
 }
+
+// Space optimiztion
+
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+    
+        return lengthOfLISUtil(nums);
+    }
+
+    private int lengthOfLISUtil(int[] nums) {
+        int n = nums.length;
+        int[] next = new int[n + 1];
+        int[] curr = new int[n + 1];
+
+        for (int idx = n - 1; idx >= 0; idx--) {
+            for (int prevIdx = idx - 1; prevIdx >= -1; prevIdx--) {
+                int notPick = 0 + next[prevIdx + 1];
+                int pick = 0;
+                if (prevIdx == -1 || nums[prevIdx] < nums[idx]) {
+                    pick = 1 + next[idx + 1];
+                }
+
+               curr[prevIdx + 1] = Math.max(pick, notPick);
+            }
+            next = curr;
+        }
+        return next[-1 + 1];
+    }
+}
+
