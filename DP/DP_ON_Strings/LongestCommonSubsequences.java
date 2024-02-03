@@ -91,3 +91,36 @@ class Solution {
     }
 
 }
+
+//Space optimisation
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        return longestCommonSubsequenceUtil(text1, text2);
+    }
+
+    private int longestCommonSubsequenceUtil(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+        int[] prev = new int[m + 1];
+        int[] curr = new int[m + 1];
+         
+        for (int j = 0; j <= m; j++) {
+            prev[j] = 0;
+        }
+
+        for (int idx1 = 1; idx1 <= n; idx1++) {
+            for (int idx2 = 1; idx2 <= m; idx2++) {
+                if (s1.charAt(idx1 - 1) == s2.charAt(idx2 - 1)) {
+                    curr[idx2] = 1 + prev[idx2 - 1];
+                } else {
+                     curr[idx2] = Math.max((0 + prev[idx2]),
+                                (0 + curr[idx2 - 1]));
+                }
+            }
+            prev = curr;
+        }
+        
+        return prev[m];
+    }
+
+}
